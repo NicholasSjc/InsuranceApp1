@@ -286,6 +286,7 @@ namespace InsuranceApp1
 
 
         }
+        // to check if user entered valid data
         static string CheckProceed()
 
         {
@@ -319,7 +320,7 @@ namespace InsuranceApp1
         }
 
 
-
+        // Main method
         static void Main(string[] args)
         {
             //Display App Title
