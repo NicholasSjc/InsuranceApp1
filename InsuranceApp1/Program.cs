@@ -1,9 +1,10 @@
-﻿// import
+﻿
+//import
 namespace InsuranceApp1
 {
 
 
-    class Program
+    internal class Program
     {
         // global virable
         // initialise a list of strings: Device types/ category
@@ -19,65 +20,204 @@ namespace InsuranceApp1
         static float totalInsuranceCost = 0, PriciestDevice = 0;
 
         //methods / functions
+
+        // so all error messages have a red colour to it 
+        static void DisplayErrorMessage(string errorMessage)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorMessage);
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
+
+
+
+        // to display errors for device cost, device category, number of devices
+        static float Checkfloat(string question, float min, float max)
+        {
+
+            while (true)
+
+
+
+                try
+
+                {
+
+
+
+
+
+                    Console.WriteLine(question);
+
+
+
+                    float userfloat = (float)Convert.ToDecimal(Console.ReadLine());
+
+
+
+                    if (userfloat >= min && userfloat <= max)
+
+                    {
+
+                        return userfloat;
+
+                    }
+
+
+
+                    DisplayErrorMessage($"ERROR: You must enter a number between {min} and {max}");
+
+
+
+                }
+
+                catch
+
+                {
+
+                    DisplayErrorMessage($"ERROR: You must enter a number between {min} and {max}");
+
+                }
+
+        }
+
+        static int Checkint(string question, int min, int max)
+
+        {
+
+            while (true)
+
+
+
+                try
+
+                {
+
+
+
+
+
+                    Console.WriteLine(question);
+
+
+
+                    int userint = Convert.ToInt32(Console.ReadLine());
+
+
+
+                    if (userint >= min && userint <= max)
+
+                    {
+
+                        return userint;
+
+                    }
+
+
+
+                    DisplayErrorMessage($"ERROR: You must enter a number between {min} and {max}");
+
+
+
+                }
+
+                catch
+
+                {
+
+                    DisplayErrorMessage($"ERROR: You must enter a number between {min} and {max}");
+
+                }
+
+        }
+
+
+
+
+
         static void OneDevice()
+
         {
             string deviceName; // this means the function DeviceName is a string function meaning it will return strings to the code which will turn into the name of the device
             int category, deviceCount; //This is a int function meaning it wil return a whole number to the code which will turn into which device and how many there are
             float deviceCost, deviceInsurance = 0; ; // this means that this will return numbers with decimals
 
+
+
+
+
             // enter the device name
             Console.WriteLine("Enter the Device's Name:");
             deviceName = Console.ReadLine();
 
-            Console.WriteLine("Press <Enter> to continue...");
+            if (string.IsNullOrEmpty(deviceName))
+
+            {
+
+                DisplayErrorMessage("Error: You must enter a device name");
+
+                OneDevice();
+
+                return;
+
+            }
+
+            Console.WriteLine("Press <Enter> to continue...\n");
             Console.ReadLine();
 
 
-            Console.Clear();
+
+
 
 
             // choose category of device
-            string menu = "Choose Device Category";
-            Console.WriteLine("Choose Device Category:");
+            string menu = "Choose Device Category:\n";
+
 
             int categoryCount = 0;
 
             foreach (string cat in deviceCategory)
             {
 
-                categoryCount +=1;
-                Console.WriteLine($"{categoryCount}. {cat}");
+                categoryCount++;
+                menu += $"{categoryCount}.{cat}\n";
+
 
             }
-            category = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Press <Enter> to continue...");
+            category = Checkint(menu, 1, 3);
+
+
+            Console.WriteLine("Press <Enter> to continue...\n");
             Console.ReadLine();
 
 
-            Console.Clear();
 
-            
+
+
+
+
+
             //Enter Device Cost
-            Console.WriteLine("Enter Device Cost:");
-            deviceCost = (float)Convert.ToDecimal(Console.ReadLine());
+            deviceCost = Checkfloat("Enter Device Cost:", 1, 10000);
 
-            Console.WriteLine("Press <Enter> to continue...");
+            Console.WriteLine("Press <Enter> to continue...\n");
             Console.ReadLine();
 
 
-            Console.Clear();
+
 
 
             //Enter number of devices
-            Console.WriteLine("Enter the number of devices:");
-            deviceCount = Convert.ToInt32(Console.ReadLine());
+            deviceCount = Checkint("Enter number of Devices", 1, 100);
 
-            Console.WriteLine("Press <Enter> to continue...");
+            Console.WriteLine("Press <Enter> to continue...\n");
             Console.ReadLine();
 
 
-            Console.Clear();
+
             // this is a function that increases the amount of devices per category 
             if (category ==1)
             {
@@ -88,12 +228,12 @@ namespace InsuranceApp1
                 desktopCounter += deviceCount;
 
             }
-            else 
+            else
             {
                 otherCounter += deviceCount;
             }
 
-         
+
 
             //calculate insurance
 
@@ -123,7 +263,7 @@ namespace InsuranceApp1
             for (int month = 0; month < 6; month++)
             {
                 depreciation = depreciation * 0.95f;
-                depreciation = (float)Math.Round( depreciation, 2);
+                depreciation = (float)Math.Round(depreciation, 2);
                 Console.WriteLine($"{month +1}\t{depreciation}");
 
             }
@@ -146,7 +286,37 @@ namespace InsuranceApp1
 
 
         }
+        static string CheckProceed()
 
+        {
+
+            Console.WriteLine("Press <enter> to add another device or type x to exit...");
+
+            string userInput = Console.ReadLine().ToLower();
+
+
+
+            while (userInput != "" && userInput != "x")
+
+            {
+
+                DisplayErrorMessage("Please press <enter> or type 'x'");
+
+                Console.WriteLine("Please enter again:");
+
+                userInput = Console.ReadLine().ToLower();
+
+            }
+
+
+
+            return userInput;
+
+
+
+
+
+        }
 
 
 
@@ -161,24 +331,19 @@ namespace InsuranceApp1
 
             Console.Clear();
 
-        
 
 
-            //Add another Device
+
+            //Add another Device 
 
             string proceed = "";
             while (proceed.Equals(""))
             {
                 OneDevice();
-              
-                Console.WriteLine("Press <ENTER> to add another device or type x to exit...");
-                proceed = Console.ReadLine();
-                
-                
-         
-
-              
+                proceed = CheckProceed();
             }
+
+            // to display summary of number of devices in each category, total insurance, priciest device 
             Console.WriteLine($"The number of laptops:{laptopCounter}");
             Console.WriteLine($"The number of Desktops:{desktopCounter}");
             Console.WriteLine($"The number of other Device:{otherCounter}");
@@ -186,14 +351,18 @@ namespace InsuranceApp1
             Console.WriteLine($"The total value for insurance:${totalInsuranceCost}");
             Console.WriteLine($"The most expensive device: {priciestDeviceName} costing ${PriciestDevice}");
 
-
-
-
         }
+
+
     }
-}
+
+
+
+
 
 }
+
+
 
 
 
