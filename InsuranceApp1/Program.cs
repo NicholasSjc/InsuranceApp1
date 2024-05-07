@@ -8,7 +8,7 @@ namespace InsuranceApp1
     {
         // global virable
         // initialise a list of strings: Device types/ category
-        static List<string> deviceCategory = new List<string>()
+        readonly static List<string> DEVICECATEGORY = new List<string>()
         {
 
             "Laptop", "Desktop", "Other (Such as Smart Phones or Drones)"
@@ -136,7 +136,7 @@ namespace InsuranceApp1
 
 
 
-
+        
         static void OneDevice()
 
         {
@@ -178,7 +178,7 @@ namespace InsuranceApp1
 
             int categoryCount = 0;
 
-            foreach (string cat in deviceCategory)
+            foreach (string cat in DEVICECATEGORY)
             {
 
                 categoryCount++;
@@ -286,7 +286,7 @@ namespace InsuranceApp1
 
 
         }
-        // to check if user entered valid data
+        // to check if user entered valid data when regarding at the end
         static string CheckProceed()
 
         {
@@ -344,7 +344,7 @@ namespace InsuranceApp1
                 proceed = CheckProceed();
             }
 
-            // to display summary of number of devices in each category, total insurance, priciest device 
+            // to display summary of number of devices in each category, total insurance, priciest device after user enters 'x'
             Console.WriteLine($"The number of laptops:{laptopCounter}");
             Console.WriteLine($"The number of Desktops:{desktopCounter}");
             Console.WriteLine($"The number of other Device:{otherCounter}");
